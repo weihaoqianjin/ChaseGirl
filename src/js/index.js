@@ -190,19 +190,19 @@ function collisionCheck(obj1,obj2){
     var xabs=Math.abs(x);
     var yabs=Math.abs(y);
 
-    if(x<=40&&x>=0&&yabs<22)
+    if(x<=43&&x>=0&&yabs<22)
     //console.log("左侧返回");
         obj2.collisionFlag=1;
-    if(x<=0&&x>=-30&&yabs<22)
+    if(x<=0&&x>=-32&&yabs<22)
     //console.log("右侧返回");
         obj2.collisionFlag=2;
-    if(y<=60&&y>=0&&xabs<22)
+    if(y<=42&&y>=0&&xabs<22)
     //console.log("上侧返回");
     {
         obj2.collisionFlag = 3;
         console.log(y);
     }
-    if(y<=0&&y>=-60&&xabs<22)
+    if(y<=0&&y>=-42&&xabs<22)
     //console.log("下侧返回");
     {
         obj2.collisionFlag = 4;
@@ -221,12 +221,12 @@ function addElement(elements,scene) {
     for(var i=0;i<outside;i++){
         for(var j=0;j<inside;j++){
             if(elements[i][j]=="1"){
-                obstacleset.push(new basicobj(j*32,i*32));
+                obstacleset.push(new basicobj((j-1)*38,i*38+4));
                 var element=document.createElement("img");
                 element.src="src/img/obstacle.png";
                 element.style.position="absolute";
-                element.style.left=j*32+8+"px";
-                element.style.top=i*32+"px";
+                element.style.left=(j-1)*38+4+"px";
+                element.style.top=i*38+"px";
                 scene.appendChild(element);
             }
         }
