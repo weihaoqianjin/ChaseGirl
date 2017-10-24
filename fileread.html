@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件读取测试</title>
+</head>
+<body>
+
+<div id="back">
+
+</div>
+
+<script type="text/javascript">
+
+
+
+//地图元素添加
+function addElement(elements,scene) {
+    var outside=elements.length;
+    var inside=elements[0].length;
+    for(var i=0;i<outside;i++){
+        for(var j=0;j<inside;j++){
+            if(elements[i][j]=="1"){
+                var element=document.createElement("img");
+                element.src="src/img/obstacle.png";
+                element.style.position="absolute";
+                element.style.left=j*32+"px";
+                element.style.top=i*32+"px";
+                scene.appendChild(element);
+            }
+        }
+    }
+}
+//地图绘制函数
+function drawMap(file,scene) {
+    var filePath=file;
+    var xmlHttp;
+    xmlHttp = new XMLHttpRequest();    // 实例化对象
+    xmlHttp.onreadystatechange = function()
+    {
+        if( xmlHttp.readyState == 4  && xmlHttp.status == 200 ){
+            var str=xmlHttp.responseText;
+            for(var i=0;i<11;i++) {
+                str = str.replace('\r\n', "");
+            }
+            str=str.split('g');
+            str.pop();
+            var result;
+            var outside=str.length;
+            result=str[0].split("");
+            for(var i=0;i<outside;i++){
+                result[i]=str[i].split("");
+            }
+            var deletenum=result.length-outside;
+            for(var i=0;i<deletenum;i++)
+                result.pop();
+
+            addElement(result,scene);
+        }
+    }
+    xmlHttp.open( "GET",filePath, true );
+    xmlHttp.send( null );
+}
+
+var file="src//gamemap//map.txt";
+var scene=document.getElementById("back");
+drawMap(file,scene);
+</script>
+
+<!--<input type="file" name="file" onchange="showPreview(this)" />-->
+</body>
+</html>

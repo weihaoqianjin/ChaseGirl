@@ -1,0 +1,27 @@
+body{
+    margin:0;
+    padding:0;
+}
+#back{
+    margin:0 auto;
+    width:600px;
+    height:640px;
+    position: relative;
+    background: green;
+}
+#boy{
+    width:32px;
+    height:32px;
+    background-image: url(../img/boy.png);
+    background-position: 0 0;
+    position: absolute;
+}
+#girl{
+    width:32px;
+    height:32px;
+    top:400px;
+    left:400px;
+    background-image: url(../img/girl.png);
+    background-position: 0 0;
+    position: absolute;
+}

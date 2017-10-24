@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单元测试页面</title>
+</head>
+<body>
+<script>
+    function num() {
+        this.num=0;
+    }
+    function add(obj) {
+        console.log(obj.num);
+        obj.num++;
+        console.log(obj.num);
+    }
+//    var amount=0;
+//    add(amount);
+//    console.log(amount);
+    var example=new num();
+    add(example);
+    console.log(example.num);
+</script>
+</body>
+</html>
