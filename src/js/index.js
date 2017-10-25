@@ -129,6 +129,7 @@ function  cmove(character,dir) {
 var collisionFlag=0;
 //玩家人物行走控制
 function pMove(characterinfo,characterinfo1,obs) {
+   // console.log(characterinfo.xpos-characterinfo1.xpos);
     //防止障碍物集合数量变化
     var obs=obs;
     obs.push(characterinfo1);
@@ -191,8 +192,8 @@ function npcMove(characterinfo,characterinfo1,obs) {
     var obs=obs;
     obs.push(characterinfo);
     var length=obs.length;
-     if(characterinfo.collisionFlag!=0)
-         clearInterval(gameover);
+     // if(characterinfo.collisionFlag!=0)
+     //     clearInterval(gameover);
     //console.log(characterinfo.collisionFlag);
     switch (characterinfo1.moveFlag[0]){
         case 0 ://左移
@@ -474,3 +475,9 @@ var file="src//gamemap//map.txt";
 var scene=document.getElementById("back");
 drawMap(file,scene);
 
+setInterval(function () {
+    var distance=Math.sqrt((boyinfo.xpos-girlinfo.xpos)*(boyinfo.xpos-girlinfo.xpos)+(boyinfo.ypos-girlinfo.ypos)*(boyinfo.ypos-girlinfo.ypos));
+   // console.log(distance);
+    if(distance<=40)
+        clearInterval(gameover);
+},10);
