@@ -3,6 +3,8 @@ function basicobj(xpos,ypos){
     this.xpos=xpos;
     this.ypos=ypos;
     this.collisionFlag=0;
+    this.npccollisionFlag=0;
+    this.type="obstacle";
 }
 //人物基本信息
 function people(dom,xpos,ypos,increase,width,height,movearr,moveFlag){
@@ -15,16 +17,18 @@ function people(dom,xpos,ypos,increase,width,height,movearr,moveFlag){
         [[0,-96],[-32,-96],[-64,-96]],
         [[0,0],[-32,0],[-64,0]]
     ];
+    //人物类型
+    this.type="player";
     //人物运动方向及当前状态帧
-    this.moveFlag=moveFlag?moveFlag:[3,0];
+    this.moveFlag=moveFlag?moveFlag:[2,0];
     //人物碰撞检测标志
     this.collisionFlag=0;
     //位置初始化
     this.xpos=xpos?xpos:0;
     this.ypos=ypos?ypos:0;
     //活动边界
-    this.width=width?width-32:600-32;
-    this.height=height?height-32:640-32;
+    this.width=width?width-32:612-32;
+    this.height=height?height-32:610-32;
     //运动速度
     this.increase=increase?increase:4;
     //获取人物在活动场景中的x坐标
@@ -52,7 +56,7 @@ function people(dom,xpos,ypos,increase,width,height,movearr,moveFlag){
 //人物动画帧播放实现
 function dirMove(character,stopFlag) {
 
-    if(stopFlag!=-1)
+    if(stopFlag!=-1&&character.type=="player")
     {
         if(character.moveFlag[1]>=3)
             character.moveFlag[1]=0;
@@ -61,7 +65,7 @@ function dirMove(character,stopFlag) {
         character.moveFlag[1]++;
     }
 
-    if(character.id=="girl"){
+    if(character.type=="npc"){
         if(character.moveFlag[1]>=3)
             character.moveFlag[1]=0;
         var dirGo=character.movearr[character.moveFlag[0]][character.moveFlag[1]][0]+"px "+character.movearr[character.moveFlag[0]][character.moveFlag[1]][1]+"px";
@@ -123,13 +127,12 @@ function  cmove(character,dir) {
 }
 //collisionFlag
 var collisionFlag=0;
-//人物行走控制
+//玩家人物行走控制
 function pMove(characterinfo,characterinfo1,obs) {
     //防止障碍物集合数量变化
     var obs=obs;
     obs.push(characterinfo1);
     var length=obs.length;
-    var go=1;
    // console.log(obs[length-1]);
     switch (dirKeyCode){
         case 37 ://左移
@@ -182,6 +185,66 @@ function pMove(characterinfo,characterinfo1,obs) {
     }
 }
 
+//npc行走控制
+function npcMove(characterinfo,characterinfo1,obs) {
+    //防止障碍物集合数量变化
+    var obs=obs;
+    obs.push(characterinfo);
+    var length=obs.length;
+     if(characterinfo.collisionFlag!=0)
+         clearInterval(gameover);
+    //console.log(characterinfo.collisionFlag);
+    switch (characterinfo1.moveFlag[0]){
+        case 0 ://左移
+            for(var i=0;i<length;i++)
+                if(obs[i].npccollisionFlag==1) {
+                    collisionFlag=1;
+                }
+            if(collisionFlag!=1)
+                cmove(characterinfo1,"left");
+            collisionFlag=0;
+            for(var i=0;i<length;i++)
+                obs[i].npccollisionFlag=0;
+            break;
+        case 2 ://上移
+            for(var i=0;i<length;i++)
+                if(obs[i].npccollisionFlag==3) {
+                    characterinfo1.moveFlag[0]=0;
+                }
+            if(characterinfo1.collisionFlag!=3)
+                cmove(characterinfo1,"top");
+            // collisionFlag=0;
+            for(var i=0;i<length;i++)
+                obs[i].npccollisionFlag=0;
+            break;
+        case 1 ://右移
+            for(var i=0;i<length;i++)
+                if(obs[i].npccollisionFlag==2) {
+                    collisionFlag=2;
+                }
+            //console.log(obs[3]);
+            if(collisionFlag!=2)
+                cmove(characterinfo1,"right");
+            collisionFlag=0;
+            for(var i=0;i<length;i++)
+                obs[i].npccollisionFlag=0;
+            break;
+        case 3 ://下移
+            for(var i=0;i<length;i++)
+                if(obs[i].npccollisionFlag==4) {
+                    collisionFlag=4;
+                }
+            if(collisionFlag!=4)
+                cmove(characterinfo1,"bottom");
+            collisionFlag=0;
+            for(var i=0;i<length;i++)
+                obs[i].npccollisionFlag=0;
+            break;
+        default :
+            break;
+    }
+}
+
 //碰撞检测
 function collisionCheck(obj1,obj2){
     //坐标差值
@@ -190,30 +253,105 @@ function collisionCheck(obj1,obj2){
     var xabs=Math.abs(x);
     var yabs=Math.abs(y);
 
-    if(x<=43&&x>=0&&yabs<22)
-    //console.log("左侧返回");
-        obj2.collisionFlag=1;
-    if(x<=0&&x>=-32&&yabs<22)
-    //console.log("右侧返回");
-        obj2.collisionFlag=2;
-    if(y<=42&&y>=0&&xabs<22)
-    //console.log("上侧返回");
-    {
-        obj2.collisionFlag = 3;
-        console.log(y);
-    }
-    if(y<=0&&y>=-42&&xabs<22)
-    //console.log("下侧返回");
-    {
-        obj2.collisionFlag = 4;
-        console.log(y);
-    }
+    switch (obj1.type){
+        case "player":
+            switch(obj2.type){
+                case "obstacle":
+                    if(x<=41&&x>=0&&yabs<=26)
+                    //console.log("左侧返回");
+                        obj2.collisionFlag=1;
+                    if(x<=0&&x>=-33&&yabs<=26)
+                    //console.log("右侧返回");
+                        obj2.collisionFlag=2;
+                    if(y<=35&&y>=0&&xabs<=28)
+                    //console.log("上侧返回");
+                        obj2.collisionFlag = 3;
+                    if(y<=0&&y>=-43&&xabs<=28)
+                    //console.log("下侧返回");
+                        obj2.collisionFlag = 4;
+                    break;
+                case "npc":
+                    if(x<=36&&x>=0&&yabs<22)
+                    //console.log("左侧返回");
+                        obj2.collisionFlag=1;
+                    if(x<=0&&x>=-36&&yabs<22)
+                    //console.log("右侧返回");
+                        obj2.collisionFlag=2;
+                    if(y<=36&&y>=0&&xabs<22)
+                    //console.log("上侧返回");
+                    {
+                        obj2.collisionFlag = 3;
+                        // console.log(y);
+                    }
+                    if(y<=0&&y>=-36&&xabs<22)
+                    //console.log("下侧返回");
+                    {
+                        obj2.collisionFlag = 4;
+                        //console.log(y);
+                    }
+                    break;
+                default :
+                    break;
+            };
+            break;
 
+        case "npc":
+            switch(obj2.type){
+                case "obstacle":
+                    if(x<=41&&x>=0&&yabs<=26)
+                    //console.log("左侧返回");
+                        obj2.npccollisionFlag=1;
+                    if(x<=0&&x>=-33&&yabs<=26)
+                    //console.log("右侧返回");
+                        obj2.npccollisionFlag=2;
+                    if(y<=35&&y>=0&&xabs<=28)
+                    //console.log("上侧返回");
+                        obj2.npccollisionFlag = 3;
+                    if(y<=0&&y>=-43&&xabs<=28)
+                    //console.log("下侧返回");
+                        obj2.npccollisionFlag = 4;
+                    break;
+                case "player":
+
+                    if(x<=36&&x>=0&&yabs<22)
+                    //console.log("左侧返回");
+                        obj1.collisionFlag=1;
+                    if(x<=0&&x>=-36&&yabs<22)
+                    //console.log("右侧返回");
+                        obj1.collisionFlag=2;
+                    if(y<=36&&y>=0&&xabs<22)
+                    //console.log("上侧返回");
+                    {
+                        obj1.collisionFlag = 3;
+                        // console.log(y);
+                    }
+                    if(y<=0&&y>=-36&&xabs<22)
+                    //console.log("下侧返回");
+                    {
+                        obj1.collisionFlag = 4;
+                        //console.log(y);
+                    }
+                    break;
+            };
+            break;
+        default:
+            break;
+    }
 };
+
+//障碍物碰撞检测
+function occ(objamount,characterinfo) {
+    for(var i=0;i<objamount;i++){
+        (function (i) {
+            setInterval(function () {
+                collisionCheck(characterinfo,obstacleset[i]);
+            },10);
+        })(i);
+    }
+}
 
 //基础障碍物集
 var obstacleset=[];
-
 //地图元素添加
 function addElement(elements,scene) {
     var outside=elements.length;
@@ -270,12 +408,12 @@ var gameFlag=0;
 //男孩人物获取
 var boy=document.getElementById("boy");
 //男孩人物信息
-var boyinfo=new people(boy,0,0,10);
+var boyinfo=new people(boy,0,0,2);
 
 //人物动画帧切换速度
-var animaSpeed=200;
+var animaSpeed=150;
 //人物运动执行间隔
-var moveSpeed=100;
+var moveSpeed=24;
 
 //存储人物运动方向
 var dirKeyCode=-1;
@@ -302,33 +440,35 @@ document.onkeyup=function () {
     dirKeyCode=-1;
 };
 
-// ----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 //女孩相关操作
 //女孩人物获取
 var girl=document.getElementById("girl");
 //女孩人物信息
-var girlinfo=new people(girl,400,400,10);
+var girlinfo=new people(girl,380,500,2);
+girlinfo.type="npc";
 //触发女孩动画播放
-setInterval('dirMove(girlinfo)',200);
+setInterval('dirMove(girlinfo)',150);
+//触发npc自由运动
+var gameover=setInterval('npcMove(boyinfo,girlinfo,obstacleset)',40);
+//clearInterval(gameover)
+
+// function npcMove(characterinfo){
+//     this.character=characterinfo;
+//     setInterval('cmove(girlinfo,"top")',40);
+// }
+//
+// npcMove(girlinfo);
 
 // ------------------------------------------------------------------------------------------------------------------------
-//碰撞检测
-setInterval('collisionCheck(boyinfo,girlinfo)',100);
-
-//障碍物碰撞检测
-function occ(amount) {
-    for(var i=0;i<amount;i++){
-        (function (i) {
-
-            setInterval(function () {
-                collisionCheck(boyinfo,obstacleset[i]);
-            },100);
-        })(i);
-    }
-}
-setTimeout('occ(obstacleset.length)',100);
-
-
+//游戏玩家与npc碰撞检测
+setInterval('collisionCheck(boyinfo,girlinfo)',moveSpeed);
+//游戏玩家碰撞检测开始
+setTimeout('occ(obstacleset.length,boyinfo)',moveSpeed);
+//npc碰撞检测开始
+setTimeout('occ(obstacleset.length,girlinfo)',moveSpeed);
+//clearInterval(gameFlag);
+//setTimeout('clearInterval(gameFlag)',3000);
 //地图读取及场景绘制
 var file="src//gamemap//map.txt";
 var scene=document.getElementById("back");

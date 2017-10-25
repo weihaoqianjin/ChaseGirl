@@ -5,7 +5,7 @@ body{
 #back{
     margin:0 auto;
     width:612px;
-    height:620px;
+    height:610px;
     position: relative;
     background: green;
 }
@@ -19,9 +19,9 @@ body{
 #girl{
     width:32px;
     height:32px;
-    top:420px;
+    top:500px;
     left:380px;
     background-image: url(../img/girl.png);
-    background-position: 0 0;
+    background-position: 0 -96px;
     position: absolute;
 }
