@@ -3,23 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>单元测试页面</title>
+    <style>
+        .introduce-pannel{
+            width:200px;
+            background:#e6a743;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 5px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px black;
+        }
+        .avatar{
+            width:60px;
+            height:60px;
+            background: url("src/img/programmer.png") no-repeat center;
+            background-size: contain;
+            margin:0 auto ;
+        }
+        .avatar-content{
+            font-size: 14px;
+            margin:0 auto;
+        }
+        .avatar-content > div{
+            margin-top: 10px;
+        }
+        .avatar-content div label{
+            font-weight: bold;
+        }
+        .work{
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body>
+<body style="background:deepskyblue">
+<div class="introduce-pannel" style="margin:50px auto">
+    <div class="avatar" id="avatar"></div>
+    <div class="work" id="work">程序员</div>
+     <div class="avatar-content">
+         <div><label>签名：</label><span id="sign">好的男人就像别人调好的软件，只不过他一身bug的时候，你没遇见而已。</span></div>
+         <div><label>技能：</label><span id="skill">有几率让女主瞎眼倒追。</span></div>
+         <div><label>道具：</label><span id="tool">暂无</span></div>
+     </div>
+</div>
 <script>
-    function num() {
-        this.num=0;
-    }
-    function add(obj) {
-        console.log(obj.num);
-        obj.num++;
-        console.log(obj.num);
-    }
-//    var amount=0;
-//    add(amount);
-//    console.log(amount);
-    var example=new num();
-    add(example);
-    console.log(example.num);
+    var work=["程序员","Demon少爷",""];
+    var sign=["好的男人就像别人调好的软件，只不过他一身bug的时候，你没遇见而已。","当我展开恶魔双翼的时候，你就放弃奔跑吧，前面已经无路可逃了。"];
+    var skill=["有几率让女主瞎眼倒追。","可飞跃一块障碍物包括墙壁。"];
+    var tool=["暂无"];
+    var avatar=["programmer.png","demon.png","sport.png"];
+    var setAvatar=document.getElementById("avatar");
+    setAvatar.style['background-image']='url("src/img/'+avatar[1]+'")';
+    var setWork=document.getElementById("work");
+    setWork.innerHTML=work[1];
+    var setSign=document.getElementById("sign");
+    setSign.innerHTML=sign[1];
+    var setSkill=document.getElementById("skill");
+    setSkill.innerHTML=skill[1];
+    var setTool=document.getElementById("tool");
+    setTool.innerHTML=tool[0];
 </script>
 </body>
 </html>
