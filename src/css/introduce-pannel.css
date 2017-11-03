@@ -1,0 +1,57 @@
+.introduce-pannel{
+    width:200px;
+    background:#e6a743;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+    position:absolute;
+    top:150px;
+    left:calc(50% - 100px);
+    transition:all 0.5s linear;
+    opacity:0;
+}
+.avatar{
+    width:60px;
+    height:60px;
+    background: url("../img/programmer.png") no-repeat center;
+    background-size: contain;
+    margin:0 auto ;
+}
+.avatar-content{
+    font-size: 14px;
+    margin:0 auto;
+}
+.avatar-content > div{
+    margin-top: 10px;
+}
+.avatar-content div label{
+    font-weight: bold;
+}
+.work{
+    text-align: center;
+    font-weight: bold;
+}
+.larr{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+}
+.rarr{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+}
+.larr,.rarr{
+    cursor:pointer;
+}
+.order{
+    position:absolute;
+    bottom:15px;
+    left:calc(50% - 13px);
+}
+.btn{
+    background:yellow;
+}

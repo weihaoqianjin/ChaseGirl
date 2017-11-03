@@ -449,7 +449,7 @@ var girl=document.getElementById("girl");
 var girlinfo=new people(girl,380,500,2);
 girlinfo.type="npc";
 //触发女孩动画播放
-setInterval('dirMove(girlinfo)',150);
+setInterval('dirMove(girlinfo)',100);
 //触发npc自由运动
 var gameover=setInterval('npcMove(boyinfo,girlinfo,obstacleset)',40);
 //clearInterval(gameover)
