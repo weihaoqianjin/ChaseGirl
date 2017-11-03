@@ -12,21 +12,57 @@
             width:612px;
             height:auto;
         }
+        /*当前角色简介*/
+        .brief{
+            display: flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+            width:80px;
+            position:absolute;
+            left:calc(50% - 396px);
+            background:yellow;
+            padding-top:10px;
+            padding-bottom: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            box-shadow: 0 0 3px #888888;
+        }
+        .brief strong{
+            font-size:14px;
+        }
+        #current-charactor-title{
+            font-size: 12px;
+        }
+        #current-charactor{
+            width:30px;
+            height:30px;
+            background: url("src/img/programmer.png") no-repeat center;
+            background-size: contain;
+            margin:5px 0;
+        }
     </style>
 </head>
 <body>
+    <!--当前游戏角色简介-->
+    <div class="brief">
+        <strong>当前角色</strong>
+        <div id="current-charactor"></div>
+        <div id="current-charactor-title">程序猿</div>
+    </div>
     <!--主面板-->
-   <div id="back">
-       <div id="boy"></div>
-       <div id="girl"></div>
-   </div>
+    <div id="back">
+        <div id="boy"></div>
+        <div id="girl"></div>
+    </div>
     <!--按钮区-->
     <div class="btn-area">
         <button onclick="choose()" class="btn">角色切换</button>
     </div>
     <!--人物选择面板-->
     <div class="introduce-pannel" id="introduce-pannel">
-        <div></div>
+        <div class="cancel" onclick="cancel()"></div>
+        <div class="confirm" onclick="confirm()"></div>
         <div class="avatar" id="avatar"></div>
         <div class="work" id="work">程序员</div>
         <div class="avatar-content">
@@ -41,7 +77,21 @@
     <script src="src/js/index.js"></script>
     <script src="src/js/introduce-pannel.js"></script>
 <script>
-
+    var cpic=["cprogrammer.png","cdemon.png","csunnyboy.png"];
+    //角色确定
+    function confirm(){
+        var player=Math.abs(position)%3;
+        var ccharactor=document.getElementById("current-charactor");
+        var cctitle=document.getElementById("current-charactor-title");
+        ccharactor.style['background-image']="url('src/img/"+avatar[player]+"')";
+        cctitle.innerHTML=work[player];
+        document.getElementById("boy").style['background-image']='url(src/img/'+cpic[player]+')';
+        choose();
+    }
+    //角色取消
+    function cancel(){
+        choose();
+    }
 </script>
 </body>
 </html>

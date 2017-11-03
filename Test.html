@@ -24,6 +24,7 @@
             background: url("src/img/programmer.png") no-repeat center;
             background-size: contain;
             margin:0 auto ;
+            margin-top: 19px;
         }
         .avatar-content{
             font-size: 14px;
@@ -61,14 +62,53 @@
             background:yellow;
         }
         .choose{
+            position:absolute;
+            width:38px;
+            height:38px;
             background: url(src/img/choose.png) no-repeat;
-            /*background-positio;*/
+            left:10px;
+            cursor: pointer;
+        }
+        .cancel{
+            position:absolute;
+            width:38px;
+            height:38px;
+            background: url(src/img/choose.png) no-repeat;
+            background-position: -37.5px 0;
+            right:10px;
+            cursor: pointer;
+        }
+        .brief{
+            display: flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+            width:100px;
+        }
+        .brief strong{
+            font-size:14px;
+        }
+        .brief span{
+            font-size: 12px;
+        }
+        #current-charactor{
+            width:30px;
+            height:30px;
+            background: url("src/img/programmer.png") no-repeat center;
+            background-size: contain;
+            margin:5px 0;
         }
     </style>
 </head>
 <body style="background:deepskyblue">
+<div class="brief">
+    <strong>当前角色</strong>
+    <div id="current-charactor"></div>
+    <span>程序猿</span>
+</div>
 <div class="introduce-pannel" id="introduce-pannel">
-    <div class="choose"></div>
+    <div class="choose" onclick="confirm()"></div>
+    <div class="cancel"></div>
     <div class="avatar" id="avatar"></div>
     <div class="work" id="work">程序员</div>
      <div class="avatar-content">
@@ -110,6 +150,9 @@
             show=1;
         }
 
+    }
+    function confirm(){
+        alert("Hello");
     }
 
     var work=["程序员","Demon少爷","Sunny Boy"];
