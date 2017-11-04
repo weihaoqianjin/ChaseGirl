@@ -20,10 +20,16 @@ function choose() {
     if(show){
         pannel.style.opacity=0;
         show=0;
+        setTimeout(function(){
+            pannel.style.display="none";
+        },500);
     }
     else{
-        pannel.style.opacity=1;
-        show=1;
+        pannel.style.display="block";
+        setTimeout(function () {
+            pannel.style.opacity=1;
+            show=1;
+        },10);
     }
 
 }
@@ -43,4 +49,56 @@ larr.onclick=function(){
 var rarr=document.getElementById("rarr");
 rarr.onclick=function(){
     changeCharactor(++position);
+};
+
+
+// ---------------------------------------道具切换效果---------------------------------------------------------
+
+
+//道具信息切换
+function changeTool(num){
+    num=Math.abs(num)%3;
+    var setAvatar=document.getElementById("tavatar");
+    setAvatar.style['background-image']='url(src/img/'+tavatar[num]+')';
+    var setWork=document.getElementById("twork");
+    setWork.innerHTML=twork[num];
+    var setSign=document.getElementById("tsign");
+    setSign.innerHTML=tsign[num];
+    var order=document.getElementById("torder");
+    order.innerHTML=num+1+"/"+tamount;
+}
+
+//道具切换
+function chooseTool() {
+    var pannel=document.getElementById("toolshop");
+    if(tshow){
+        pannel.style.opacity=0;
+        tshow=0;
+        setTimeout(function(){
+            pannel.style.display="none";
+        },500);
+    }
+    else{
+        pannel.style.display="block";
+        setTimeout(function () {
+            pannel.style.opacity=1;
+            tshow=1;
+        },10);
+    }
+
+}
+
+var twork=["代步滑板","炫酷吉他","cupid的飞箭"];
+var tsign=["提升25%的速度。","让人沉醉音乐，一定几率暂停行动。","被射中的人将原路返回，持续效果2s。"];
+var tavatar=["skateboard.png","guitar.png","cupid.png"];
+var tamount=twork.length;
+var tposition=0;
+var tshow=0;
+var tlarr=document.getElementById("tlarr");
+tlarr.onclick=function(){
+    changeTool(--tposition);
+};
+var trarr=document.getElementById("trarr");
+trarr.onclick=function(){
+    changeTool(++tposition);
 }

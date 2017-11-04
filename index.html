@@ -58,6 +58,7 @@
     <!--按钮区-->
     <div class="btn-area">
         <button onclick="choose()" class="btn">角色切换</button>
+        <button onclick="chooseTool()" class="btn">道具选择</button>
     </div>
     <!--人物选择面板-->
     <div class="introduce-pannel" id="introduce-pannel">
@@ -74,6 +75,20 @@
         <img src="src/img/rarrow.png" width="30px" class="rarr" id="rarr">
         <div class="order" id="order">1/3</div>
     </div>
+    <!--道具选择面板-->
+    <div class="introduce-pannel" id="toolshop" style="background:#fff5da;">
+        <div class="cancel" onclick="chooseTool()"></div>
+        <div class="confirm" onclick="chooseTool()"></div>
+        <div class="tavatar" id="tavatar" ></div>
+        <div class="work" id="twork">代步滑板</div>
+        <div class="avatar-content">
+            <div><label>功能：</label><span id="tsign">提升25%的速度。</span></div>
+        </div>
+        <img src="src/img/larrow.png" width="30px" class="larr" id="tlarr">
+        <img src="src/img/rarrow.png" width="30px" class="rarr" id="trarr">
+        <div class="order" id="torder">1/3</div>
+    </div>
+
     <script src="src/js/index.js"></script>
     <script src="src/js/introduce-pannel.js"></script>
 <script>

@@ -12,6 +12,7 @@
     left:calc(50% - 100px);
     transition:all 0.5s linear;
     opacity:0;
+    display:none;
 }
 .avatar{
     width:60px;
@@ -20,6 +21,14 @@
     background-size: contain;
     margin:0 auto ;
     margin-top: 19px;
+}
+.tavatar{
+    width:140px;
+    height:140px;
+    background: url("../img/skateboard.png") no-repeat center;
+    background-size: contain;
+    margin:0 auto ;
+    margin-top: 20px;
 }
 .avatar-content{
     font-size: 14px;

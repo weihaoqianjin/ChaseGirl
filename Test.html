@@ -6,7 +6,7 @@
     <style>
         .introduce-pannel{
             width:200px;
-            background:#e6a743;
+            background:#fff5da;
             padding-top: 10px;
             padding-left: 10px;
             padding-right: 5px;
@@ -17,14 +17,15 @@
             top:150px;
             left:calc(50% - 100px);
             transition:all 0.5s linear;
+            opacity:0;
         }
         .avatar{
-            width:60px;
-            height:60px;
-            background: url("src/img/programmer.png") no-repeat center;
+            width:140px;
+            height:140px;
+            background: url("src/img/skateboard.png") no-repeat center;
             background-size: contain;
             margin:0 auto ;
-            margin-top: 19px;
+            margin-top: 20px;
         }
         .avatar-content{
             font-size: 14px;
@@ -58,9 +59,6 @@
             bottom:15px;
             left:calc(50% - 13px);
         }
-        .btn{
-            background:yellow;
-        }
         .choose{
             position:absolute;
             width:38px;
@@ -78,98 +76,70 @@
             right:10px;
             cursor: pointer;
         }
-        .brief{
-            display: flex;
-            flex-direction:column;
-            justify-content: center;
-            align-items: center;
-            width:100px;
-        }
-        .brief strong{
-            font-size:14px;
-        }
-        .brief span{
-            font-size: 12px;
-        }
-        #current-charactor{
-            width:30px;
-            height:30px;
-            background: url("src/img/programmer.png") no-repeat center;
-            background-size: contain;
-            margin:5px 0;
-        }
     </style>
 </head>
 <body style="background:deepskyblue">
-<div class="brief">
-    <strong>当前角色</strong>
-    <div id="current-charactor"></div>
-    <span>程序猿</span>
-</div>
-<div class="introduce-pannel" id="introduce-pannel">
-    <div class="choose" onclick="confirm()"></div>
-    <div class="cancel"></div>
-    <div class="avatar" id="avatar"></div>
-    <div class="work" id="work">程序员</div>
+<button onclick="chooseTool()">道具选择</button>
+<div class="introduce-pannel" id="toolshop">
+    <div class="choose" onclick="chooseTool()"></div>
+    <div class="cancel" onclick="chooseTool()"></div>
+    <div class="avatar" id="tavatar"></div>
+    <div class="work" id="twork">代步滑板</div>
      <div class="avatar-content">
-         <div><label>签名：</label><span id="sign">好的男人就像别人调好的软件，只不过他一身bug的时候，你没遇见而已。</span></div>
-         <div><label>技能：</label><span id="skill">有几率让女主瞎眼倒追。</span></div>
-         <div><label>道具：</label><span id="tool">暂无</span></div>
+         <div><label>功能：</label><span id="tsign">提升25%的速度。</span></div>
      </div>
-    <img src="src/img/larrow.png" width="30px" class="larr" id="larr">
-    <img src="src/img/rarrow.png" width="30px" class="rarr" id="rarr">
-    <div class="order" id="order">1/3</div>
+    <img src="src/img/larrow.png" width="30px" class="larr" id="tlarr">
+    <img src="src/img/rarrow.png" width="30px" class="rarr" id="trarr">
+    <div class="order" id="torder">1/3</div>
 </div>
 
 <script>
-    //切换角色
-    function changeCharactor(num){
+    //道具信息切换
+    function changeTool(num){
         num=Math.abs(num)%3;
-        var setAvatar=document.getElementById("avatar");
-        setAvatar.style['background-image']='url("src/img/'+avatar[num]+'")';
-        var setWork=document.getElementById("work");
-        setWork.innerHTML=work[num];
-        var setSign=document.getElementById("sign");
-        setSign.innerHTML=sign[num];
-        var setSkill=document.getElementById("skill");
-        setSkill.innerHTML=skill[num];
-        var setTool=document.getElementById("tool");
-        setTool.innerHTML=tool[0];
-        var order=document.getElementById("order");
-        order.innerHTML=num+1+"/"+amount;
+        var setAvatar=document.getElementById("tavatar");
+        setAvatar.style['background-image']='url("src/img/'+tavatar[num]+'")';
+        var setWork=document.getElementById("twork");
+        setWork.innerHTML=twork[num];
+        var setSign=document.getElementById("tsign");
+        setSign.innerHTML=tsign[num];
+        var order=document.getElementById("torder");
+        order.innerHTML=num+1+"/"+tamount;
     }
-    //角色切换控制
-    function choose() {
-        var pannel=document.getElementById("introduce-pannel");
-        if(show){
+
+    //道具切换
+    function chooseTool() {
+        var pannel=document.getElementById("toolshop");
+        if(tshow){
             pannel.style.opacity=0;
-            show=0;
+            tshow=0;
+            setTimeout(function(){
+                pannel.style.display="none";
+            },500);
         }
         else{
-            pannel.style.opacity=1;
-            show=1;
+            pannel.style.display="block";
+            setTimeout(function () {
+                pannel.style.opacity=1;
+                tshow=1;
+            },10);
         }
 
     }
-    function confirm(){
-        alert("Hello");
-    }
 
-    var work=["程序员","Demon少爷","Sunny Boy"];
-    var sign=["好的男人就像别人调好的软件，只不过他一身bug的时候，你没遇见而已。","当我展开恶魔双翼的时候，你就放弃奔跑吧，前面已经无路可逃了。","来吧，追逐阳光和我一起在球场奔跑吧。"];
-    var skill=["有几率让女主瞎眼倒追。","可飞跃一块障碍物包括墙壁。","投出篮球砸晕女主。"];
-    var tool=["暂无"];
-    var avatar=["programmer.png","demon.png","sport.png"];
-    var amount=work.length;
-    var position=0;
-    var show=1;
-    var larr=document.getElementById("larr");
-    larr.onclick=function(){
-        changeCharactor(--position);
+    var twork=["代步滑板","炫酷吉他","cupid的飞箭"];
+    var tsign=["提升25%的速度。","让人沉醉音乐，一定几率暂停行动。","被射中的人将原路返回，持续效果2s。"];
+    var tavatar=["skateboard.png","guitar.png","cupid.png"];
+    var tamount=twork.length;
+    var tposition=0;
+    var tshow=0;
+    var tlarr=document.getElementById("tlarr");
+    tlarr.onclick=function(){
+        changeTool(--tposition);
     };
-    var rarr=document.getElementById("rarr");
-    rarr.onclick=function(){
-        changeCharactor(++position);
+    var trarr=document.getElementById("trarr");
+    trarr.onclick=function(){
+        changeTool(++tposition);
     }
 </script>
 </body>
