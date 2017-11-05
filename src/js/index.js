@@ -195,10 +195,13 @@ function npcMove(characterinfo,characterinfo1,obs) {
      // if(characterinfo.collisionFlag!=0)
      //     clearInterval(gameover);
     //console.log(characterinfo.collisionFlag);
+    // 简易自由运动算法
+    var toWhere=Math.floor(Math.random()*4);
     switch (characterinfo1.moveFlag[0]){
         case 0 ://左移
             for(var i=0;i<length;i++)
                 if(obs[i].npccollisionFlag==1) {
+                    characterinfo1.moveFlag[0]=toWhere;
                     collisionFlag=1;
                 }
             if(collisionFlag!=1)
@@ -210,17 +213,19 @@ function npcMove(characterinfo,characterinfo1,obs) {
         case 2 ://上移
             for(var i=0;i<length;i++)
                 if(obs[i].npccollisionFlag==3) {
-                    characterinfo1.moveFlag[0]=0;
+                    characterinfo1.moveFlag[0]=toWhere;
+                    collisionFlag=3;
                 }
             if(characterinfo1.collisionFlag!=3)
                 cmove(characterinfo1,"top");
-            // collisionFlag=0;
+                collisionFlag=0;
             for(var i=0;i<length;i++)
                 obs[i].npccollisionFlag=0;
             break;
         case 1 ://右移
             for(var i=0;i<length;i++)
                 if(obs[i].npccollisionFlag==2) {
+                    characterinfo1.moveFlag[0]=toWhere;
                     collisionFlag=2;
                 }
             //console.log(obs[3]);
@@ -233,6 +238,7 @@ function npcMove(characterinfo,characterinfo1,obs) {
         case 3 ://下移
             for(var i=0;i<length;i++)
                 if(obs[i].npccollisionFlag==4) {
+                    characterinfo1.moveFlag[0]=toWhere;
                     collisionFlag=4;
                 }
             if(collisionFlag!=4)
@@ -244,6 +250,10 @@ function npcMove(characterinfo,characterinfo1,obs) {
         default :
             break;
     }
+    //简易自由运动算法
+     if(characterinfo1.xpos<=0||characterinfo1.xpos>=characterinfo1.width||characterinfo1.ypos<=0||characterinfo1.ypos>=characterinfo1.height)
+         characterinfo1.moveFlag[0]=toWhere;
+   // console.log(characterinfo1.xpos);
 }
 
 //碰撞检测
@@ -273,22 +283,30 @@ function collisionCheck(obj1,obj2){
                     break;
                 case "npc":
                     if(x<=36&&x>=0&&yabs<22)
-                    //console.log("左侧返回");
+                    //console.log("左侧返回");{
+                    {
                         obj2.collisionFlag=1;
+                       gameFlag=1;
+                    }
+
                     if(x<=0&&x>=-36&&yabs<22)
                     //console.log("右侧返回");
+                    {
                         obj2.collisionFlag=2;
+                        gameFlag=1;
+                    }
                     if(y<=36&&y>=0&&xabs<22)
                     //console.log("上侧返回");
                     {
                         obj2.collisionFlag = 3;
                         // console.log(y);
+                        gameFlag=1;
                     }
                     if(y<=0&&y>=-36&&xabs<22)
                     //console.log("下侧返回");
                     {
                         obj2.collisionFlag = 4;
-                        //console.log(y);
+                        gameFlag=1;
                     }
                     break;
                 default :
@@ -313,7 +331,6 @@ function collisionCheck(obj1,obj2){
                         obj2.npccollisionFlag = 4;
                     break;
                 case "player":
-
                     if(x<=36&&x>=0&&yabs<22)
                     //console.log("左侧返回");
                         obj1.collisionFlag=1;
@@ -360,11 +377,11 @@ function addElement(elements,scene) {
     for(var i=0;i<outside;i++){
         for(var j=0;j<inside;j++){
             if(elements[i][j]=="1"){
-                obstacleset.push(new basicobj((j-1)*38,i*38+4));
+                obstacleset.push(new basicobj((j)*38,i*38+4));
                 var element=document.createElement("img");
                 element.src="src/img/obstacle.png";
                 element.style.position="absolute";
-                element.style.left=(j-1)*38+4+"px";
+                element.style.left=(j)*38+4+"px";
                 element.style.top=i*38+"px";
                 scene.appendChild(element);
             }
@@ -481,3 +498,15 @@ setInterval(function () {
     if(distance<=40)
         clearInterval(gameover);
 },10);
+
+setInterval(function () {
+    if(gameFlag) {
+        alert("GameOver");
+        for(var i=0;i<20;i++) {
+            clearInterval(i);
+        }
+    }
+},100);
+
+
+
